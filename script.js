@@ -78,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const service = document.getElementById('service').value;
       const date = document.getElementById('date').value;
       const time = document.getElementById('time').value;
+      const message = document.getElementById('message').value.trim();
 
       if (!name || !email || !phone || !service || !date || !time) {
         alert('Please fill in all required fields.');
@@ -98,15 +99,55 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
       }
 
-      // Simulate form submission
-      alert('Thank you for your booking request! Redirecting to payment...');
+      // Set amount based on service (example amounts)
+      let amount = 100000; // Default 1000 KES
+      if (service === 'web-development') amount = 500000; // 5000 KES
+      else if (service === 'mpesa-integration') amount = 300000; // 3000 KES
+      else if (service === 'ai-chatbot') amount = 400000; // 4000 KES
+      // Add more as needed
 
-      // Reset form
-      bookingForm.reset();
+      // Store booking data in localStorage for webhook access
+      const bookingData = {
+        name,
+        email,
+        phone,
+        service,
+        date,
+        time,
+        message,
+        amount: amount / 100 // Convert to KES
+      };
+      localStorage.setItem('bookingData', JSON.stringify(bookingData));
 
-      // Redirect to payment (simulate with Paystack)
-      setTimeout(() => {
-        payWithPaystack();
-      }, 50000);
+      // Proceed to payment
+      payWithPaystackForBooking(email, amount, name, service);
     });
+
+    function payWithPaystackForBooking(customerEmail, amount, customerName, service) {
+      const ref = 'BOOKING_' + Date.now();
+
+      const handler = PaystackPop.setup({
+        key: 'pk_live_ae04fba4c6a70e8260b76ddc7d829f90d8be2b35', // Replace with your live key
+        email: customerEmail,
+        amount: amount,
+        currency: 'KES',
+        ref: ref,
+        label: `${service} Booking Payment`,
+        metadata: {
+          customer_name: customerName,
+          service: service
+        },
+        callback: function(response) {
+          alert(`Payment successful! Reference: ${response.reference}. You will receive a confirmation email shortly.`);
+          // Reset form after successful payment
+          bookingForm.reset();
+          localStorage.removeItem('bookingData');
+        },
+        onClose: function() {
+          alert('Payment was not completed. You can try again.');
+        }
+      });
+
+      handler.openIframe();
+    }
   });
