@@ -100,10 +100,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
 
       // Set amount based on service (example amounts)
-      let amount = 500; // Default 5 KES
-      if (service === 'web-development') amount = 500; // 5 KES
-      else if (service === 'mpesa-integration') amount = 500; // 5 KES
-      else if (service === 'ai-chatbot') amount = 500; // 5 KES
+      let amount = 10000; // Default 100 KES
+      if (service === 'web-development') amount = 10000; // 100 KES
+      else if (service === 'mpesa-integration') amount = 10000; // 100 KES
+      else if (service === 'ai-chatbot') amount = 10000; // 100 KES
       // Add more as needed
 
       // Store booking data in localStorage for webhook access
