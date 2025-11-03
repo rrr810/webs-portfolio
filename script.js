@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const handler = PaystackPop.setup({
         key: 'pk_live_ae04fba4c6a70e8260b76ddc7d829f90d8be2b35',
         email: 'customer@example.com',
-        amount: 1000,
+        amount: 50000,
         currency: 'KES',
         ref: ref,
         label: "Event Ticket Payment",
@@ -107,6 +107,6 @@ document.addEventListener('DOMContentLoaded', function() {
       // Redirect to payment (simulate with Paystack)
       setTimeout(() => {
         payWithPaystack();
-      }, 1000);
+      }, 50000);
     });
   });
