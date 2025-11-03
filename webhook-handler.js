@@ -40,6 +40,32 @@ app.post('/paystack-webhook', (req, res) => {
     const customerName = paymentData.metadata.customer_name;
     const service = paymentData.metadata.service;
 
+    // Send data to Zapier webhook
+    fetch('https://hooks.zapier.com/hooks/catch/25228794/usb8c1r/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        customerName: customerName,
+        customerEmail: customerEmail,
+        service: service,
+        amount: amount,
+        reference: paymentData.reference,
+        event: 'booking_payment_success'
+      })
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('Data sent to Zapier successfully');
+      } else {
+        console.log('Failed to send data to Zapier');
+      }
+    })
+    .catch(error => {
+      console.log('Error sending to Zapier:', error);
+    });
+
     // Send confirmation email to customer
     const customerMailOptions = {
       from: 'your-email@gmail.com',

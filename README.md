@@ -34,9 +34,16 @@ This portfolio website includes a booking and payment system using Paystack for 
 
 ### 3. Webhook Setup
 
+**Option 1: Deploy webhook-handler.js (Recommended for full control)**
 1. Deploy `webhook-handler.js` to a server (Heroku, Vercel, etc.)
 2. Set the webhook URL in Paystack dashboard: `https://your-domain.com/paystack-webhook`
 3. Copy the webhook secret and update `PAYSTACK_SECRET` in `webhook-handler.js`
+
+**Option 2: Zapier Webhook (No-Code Alternative)**
+1. The webhook is already configured to send data to your Zapier webhook: `https://hooks.zapier.com/hooks/catch/25228794/usb8c1r/`
+2. In Zapier, create a Zap with "Webhooks by Zapier" as the trigger
+3. Set up your email automations in Zapier for customer confirmations and owner notifications
+4. No deployment needed - the webhook handler will send data directly to Zapier
 
 ### 4. No-Code Alternative (Zapier/Make)
 
