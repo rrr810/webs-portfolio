@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 
 // Paystack webhook secret (set this in your Paystack dashboard)
-const PAYSTACK_SECRET = 'your_paystack_webhook_secret_here';
+const PAYSTACK_SECRET = process.env.PAYSTACK_SECRET || 'your_paystack_webhook_secret_here';
 
 // Email configuration
 const transporter = nodemailer.createTransport({
