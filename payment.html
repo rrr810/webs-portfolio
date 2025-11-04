@@ -47,7 +47,7 @@
             ref: ref,
             label: "Event Ticket Payment",
             callback: function(response) {
-              alert(`Payment successful! Reference: ${response.reference}`);
+              alert('Payment successful! You will receive a confirmation email with your booking details shortly.');
 
               // Send booking details to Zapier webhook
               fetch('https://hooks.zapier.com/hooks/catch/25227780/usb4k7v/', {
