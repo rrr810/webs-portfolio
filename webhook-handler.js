@@ -10,7 +10,7 @@ app.use(express.json());
 const PAYSTACK_SECRET = 'your_paystack_webhook_secret_here';
 
 // Email configuration
-const transporter = nodemailer.createTransporter({
+const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'your-email@gmail.com', // Replace with your email
@@ -41,7 +41,7 @@ app.post('/paystack-webhook', (req, res) => {
     const service = paymentData.metadata.service;
 
     // Send data to Zapier webhook
-    fetch('https://hooks.zapier.com/hooks/catch/25228794/usb8c1r/', {
+    fetch('https://hooks.zapier.com/hooks/catch/25228794/us6e7z5/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
