@@ -24,41 +24,40 @@
     <script>
         // Get URL parameters
         const urlParams = new URLSearchParams(window.location.search);
-        const email = urlParams.get('email');
-        const amount = parseInt(urlParams.get('amount'));
-        const name = urlParams.get('name');
-        const service = urlParams.get('service');
+        const email = urlParams.get('email') || 'customer@example.com';
+        const amount = parseInt(urlParams.get('amount')) || 2000;
+        const name = urlParams.get('name') || 'Customer';
+        const service = urlParams.get('service') || 'Service';
 
         // Update payment info
         document.getElementById('payment-info').textContent = `Service: ${service} - Amount: KES ${amount / 100} - Customer: ${name}`;
 
         // Payment functionality
-        document.getElementById('payButton').addEventListener('click', function() {
-            const ref = 'BOOKING_' + Date.now();
+        const payButton = document.getElementById('payButton');
+        payButton.addEventListener('click', payWithPaystack);
 
-            const handler = PaystackPop.setup({
-                key: 'pk_live_ae04fba4c6a70e8260b76ddc7d829f90d8be2b35',
-                email: email,
-                amount: amount,
-                currency: 'KES',
-                ref: ref,
-                label: `${service} Booking Payment`,
-                metadata: {
-                    customer_name: name,
-                    service: service
-                },
-                callback: function(response) {
-                    alert(`Payment successful! Reference: ${response.reference}. You will receive a confirmation email shortly.`);
-                    window.location.href = 'index.html'; // Redirect back to home
-                },
-                onClose: function() {
-                    alert('Payment was not completed. You can try again.');
-                    window.location.href = 'index.html'; // Redirect back to home
-                }
-            });
+        function payWithPaystack() {
+          const ref = 'TICKET_' + Date.now();
 
-            handler.openIframe();
-        });
+          const handler = PaystackPop.setup({
+            key: 'pk_live_ae04fba4c6a70e8260b76ddc7d829f90d8be2b35',
+            email: 'customer@example.com',
+            amount: 2000,
+            currency: 'KES',
+            ref: ref,
+            label: "Event Ticket Payment",
+            callback: function(response) {
+              alert(`Payment successful! Reference: ${response.reference}`);
+              window.location.href = 'index.html';
+            },
+            onClose: function() {
+              alert('Payment was not completed. You can try again.');
+              window.location.href = 'index.html';
+            }
+          });
+
+          handler.openIframe();
+        }
     </script>
 </body>
 </html>
