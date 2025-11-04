@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
         amount: amount,
         currency: 'KES',
         ref: ref,
-        label: `${service} Booking Payment`,
+        label: "Consultation Fee",
         metadata: {
           customer_name: customerName,
           service: service

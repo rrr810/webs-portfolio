@@ -52,7 +52,7 @@ app.post('/paystack-webhook', (req, res) => {
         service: service,
         amount: amount,
         reference: paymentData.reference,
-        event: 'booking_payment_success'
+        event: 'consultation_fee_payment_success'
       })
     })
     .then(response => {
