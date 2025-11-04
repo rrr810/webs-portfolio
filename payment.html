@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Virtech Group</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" type="image/jpeg" href="profile.jpeg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <section class="payment">
+        <div class="container">
+            <h2>Complete Your Payment</h2>
+            <div class="payment-details">
+                <p id="payment-info">Processing payment...</p>
+                <button id="payButton" class="submit-button">Pay Now</button>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+        const amount = parseInt(urlParams.get('amount'));
+        const name = urlParams.get('name');
+        const service = urlParams.get('service');
+
+        // Update payment info
+        document.getElementById('payment-info').textContent = `Service: ${service} - Amount: KES ${amount / 100} - Customer: ${name}`;
+
+        // Payment functionality
+        document.getElementById('payButton').addEventListener('click', function() {
+            const ref = 'BOOKING_' + Date.now();
+
+            const handler = PaystackPop.setup({
+                key: 'pk_live_ae04fba4c6a70e8260b76ddc7d829f90d8be2b35',
+                email: email,
+                amount: amount,
+                currency: 'KES',
+                ref: ref,
+                label: `${service} Booking Payment`,
+                metadata: {
+                    customer_name: name,
+                    service: service
+                },
+                callback: function(response) {
+                    alert(`Payment successful! Reference: ${response.reference}. You will receive a confirmation email shortly.`);
+                    window.location.href = 'index.html'; // Redirect back to home
+                },
+                onClose: function() {
+                    alert('Payment was not completed. You can try again.');
+                    window.location.href = 'index.html'; // Redirect back to home
+                }
+            });
+
+            handler.openIframe();
+        });
+    </script>
+</body>
+</html>

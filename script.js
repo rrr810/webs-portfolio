@@ -121,8 +121,8 @@ document.addEventListener('DOMContentLoaded', function() {
       };
       localStorage.setItem('bookingData', JSON.stringify(bookingData));
 
-      // Proceed to payment
-      payWithPaystackForBooking(email, amount, name, service);
+      // Redirect to payment page
+      window.location.href = `payment.html?email=${encodeURIComponent(email)}&amount=${amount}&name=${encodeURIComponent(name)}&service=${encodeURIComponent(service)}`;
     });
 
     function payWithPaystackForBooking(customerEmail, amount, customerName, service) {
