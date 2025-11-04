@@ -37,20 +37,24 @@
         payButton.addEventListener('click', payWithPaystack);
 
         function payWithPaystack() {
-          const ref = 'TICKET_' + Date.now();
+          const ref = 'BOOKING_' + Date.now();
 
           const handler = PaystackPop.setup({
             key: 'pk_live_ae04fba4c6a70e8260b76ddc7d829f90d8be2b35',
-            email: 'customer@example.com',
-            amount: 2000,
+            email: email,
+            amount: amount,
             currency: 'KES',
             ref: ref,
-            label: "Event Ticket Payment",
+            label: `${service} Booking Payment`,
+            metadata: {
+              customer_name: name,
+              service: service
+            },
             callback: function(response) {
               alert('Payment successful! You will receive a confirmation email with your booking details shortly.');
 
               // Send booking details to Zapier webhook
-              fetch('https://hooks.zapier.com/hooks/catch/25227780/usb4k7v/', {
+              fetch('https://hooks.zapier.com/hooks/catch/25228794/us6e7z5/', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json'

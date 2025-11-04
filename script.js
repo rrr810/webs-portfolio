@@ -45,20 +45,20 @@ document.addEventListener('DOMContentLoaded', function() {
     stripeButton.addEventListener('click', () => alert('Stripe payment not implemented yet.'));
 
     function payWithPaystack() {
-      const ref = 'TICKET_' + Date.now();
+      const ref = 'DEMO_' + Date.now();
 
       const handler = PaystackPop.setup({
         key: 'pk_live_ae04fba4c6a70e8260b76ddc7d829f90d8be2b35',
-        email: 'customer@example.com',
+        email: 'demo@example.com',
         amount: 2000,
         currency: 'KES',
         ref: ref,
-        label: "Event Ticket Payment",
+        label: "Demo Payment",
         callback: function(response) {
-          alert(`Payment successful! Reference: ${response.reference}`);
+          alert(`Demo payment successful! Reference: ${response.reference}`);
         },
         onClose: function() {
-          alert('Payment was not completed. You can try again.');
+          alert('Demo payment was not completed. You can try again.');
         }
       });
 
