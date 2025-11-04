@@ -1,2 +1,4 @@
 - [x] Change payment amounts in script.js from 50000 to 2000 (20 KES)
 - [x] Update index.html to display "KES 20" instead of "KES 500"
+- [x] Fix payment page to use working Paystack configuration
+- [x] Send booking details to Zapier webhook after payment success

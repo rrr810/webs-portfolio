@@ -48,6 +48,26 @@
             label: "Event Ticket Payment",
             callback: function(response) {
               alert(`Payment successful! Reference: ${response.reference}`);
+
+              // Send booking details to Zapier webhook
+              fetch('https://hooks.zapier.com/hooks/catch/25227780/usb4k7v/', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  email: email,
+                  amount: amount,
+                  name: name,
+                  service: service,
+                  reference: response.reference
+                })
+              }).then(() => {
+                console.log('Booking details sent to Zapier');
+              }).catch(err => {
+                console.error('Failed to send to Zapier:', err);
+              });
+
               window.location.href = 'index.html';
             },
             onClose: function() {
