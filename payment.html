@@ -45,7 +45,7 @@
             amount: amount,
             currency: 'KES',
             ref: ref,
-        label: "Consultation Fee",
+            label: "Consultation Fee",
             metadata: {
               customer_name: name,
               service: service
@@ -53,7 +53,28 @@
             callback: function(response) {
               alert('Payment successful! You will receive a confirmation email with your booking details shortly.');
 
-              // Send booking details to Zapier webhook
+              // Send payment confirmation to our server to send emails
+              fetch('/api/webhook/payment', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  email: email,
+                  amount: amount / 100, // Convert back to KES
+                  name: name,
+                  service: service,
+                  reference: response.reference,
+                  status: 'success'
+                })
+              }).then(response => response.json())
+              .then(data => {
+                console.log('Payment confirmation sent:', data);
+              }).catch(err => {
+                console.error('Failed to send payment confirmation:', err);
+              });
+
+              // Also keep Zapier webhook for backup
               fetch('https://hooks.zapier.com/hooks/catch/25228794/us6e7z5/', {
                 method: 'POST',
                 headers: {
@@ -66,10 +87,8 @@
                   service: service,
                   reference: response.reference
                 })
-              }).then(() => {
-                console.log('Booking details sent to Zapier');
               }).catch(err => {
-                console.error('Failed to send to Zapier:', err);
+                console.log('Zapier webhook (optional):', err);
               });
 
               window.location.href = 'index.html';
